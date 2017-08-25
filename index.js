@@ -19,14 +19,18 @@ function plugin (wdInstance, options) {
 
     function setup () {
         wdInstance.__wdajaxExpectations = [];
-        wdInstance.execute(interceptor.setup);
-        return wdInstance.waitUntil(function waitForSetup() {
-            var ret = wdInstance.execute(function checkSetup () {
-                return window.__webdriverajax;
-            });
-            var isSetup = !!(ret.value && ret.value.requests);
-            return Promise.resolve(isSetup);
-        }, 5000);
+        if (window.__webdriverajax && window.__webdriverajax.requests) {
+            return true;
+        } else {
+            wdInstance.execute(interceptor.setup);
+            return wdInstance.waitUntil(function waitForSetup() {
+                var ret = wdInstance.execute(function checkSetup () {
+                    return window.__webdriverajax;
+                });
+                var isSetup = !!(ret.value && ret.value.requests);
+                return Promise.resolve(isSetup);
+            }, 5000);
+        }
     }
 
     function expectRequest (method, url, statusCode) {
