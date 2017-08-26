@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>On load get</title>
+  <script src="interceptor_setup.js"></script>
+  <script>
+    'use strict';
+
+    var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/simple_get.json');
+      xhr.send();
+
+  </script>
+</head>
+<body>
+  <p id="text">This file makes an ajax GET request to /simple_get.json on page load</p>
+
+</body>
+</html>

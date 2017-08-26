@@ -16,10 +16,25 @@ describe('webdriverajax', function () {
         assert.deepEqual(ret.value, { requests: [] });
     });
 
+    it('finds a user-set on-load interceptor', function () {
+        browser.url('/on_load_get.html');
+        var ret = browser.execute(function checkSetup () {
+            return window.__webdriverajax;
+        });
+        assert.deepEqual(ret.value, { requests: [] });
+        assert(browser.setupInterceptor());
+    });
+
     it('can intercept a simple GET request', function () {
         browser.url('/simple_get.html').setupInterceptor();
         browser.expectRequest('GET', '/simple_get.json', 200);
         browser.click('#button').pause(1000);
+        browser.assertRequests();
+    });
+
+    it('can intercept a GET request on page load', function () {
+        browser.url('/on_load_get.html');
+        browser.expectRequest('GET', '/simple_get.json', 200);
         browser.assertRequests();
     });
 
