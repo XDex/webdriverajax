@@ -19,7 +19,10 @@ function plugin (wdInstance, options) {
 
     function setup () {
         wdInstance.__wdajaxExpectations = [];
-        if (window.__webdriverajax && window.__webdriverajax.requests) {
+        var alreadyInstalled = wdInstance.execute(function checkInstalled(){
+            return window.__webdriverajax && window.__webdriverajax.requests;
+        }).value;
+        if (alreadyInstalled) {
             return true;
         } else {
             wdInstance.execute(interceptor.setup);
