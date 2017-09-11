@@ -30,9 +30,8 @@ function plugin (wdInstance, options) {
                 var ret = wdInstance.execute(function checkSetup () {
                     return window.__webdriverajax;
                 });
-                var isSetup = !!(ret.value && ret.value.requests);
-                return Promise.resolve(isSetup);
-            }, 5000);
+                return !!(ret.value && ret.value.requests);
+            }, 10000);
         }
     }
 
